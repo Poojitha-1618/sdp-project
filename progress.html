@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Progress System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .course {
+            margin-bottom: 30px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 30px;
+            background: #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: #4CAF50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+
+        .lesson-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .lesson-list button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .lesson-list button.completed {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Course Progress System</h1>
+    </header>
+
+    <main>
+        <h2>Track Your Progress</h2>
+
+        <!-- Course 1 -->
+        <div class="course" id="course1">
+            <h3>Course 1: Introduction to Programming</h3>
+            <div class="progress-container">
+                <div id="progress-bar-course1" class="progress-bar">0%</div>
+            </div>
+            <ul class="lesson-list">
+                <li><button onclick="markCompleted('course1', 1)">Complete Lesson 1</button></li>
+                <li><button onclick="markCompleted('course1', 2)">Complete Lesson 2</button></li>
+                <li><button onclick="markCompleted('course1', 3)">Complete Lesson 3</button></li>
+                <li><button onclick="markCompleted('course1', 4)">Complete Lesson 4</button></li>
+                <li><button onclick="markCompleted('course1', 5)">Complete Lesson 5</button></li>
+            </ul>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="course" id="course2">
+            <h3>Course 2: Web Development Basics</h3>
+            <div class="progress-container">
+                <div id="progress-bar-course2" class="progress-bar">0%</div>
+            </div>
+            <ul class="lesson-list">
+                <li><button onclick="markCompleted('course2', 1)">Complete Lesson 1</button></li>
+                <li><button onclick="markCompleted('course2', 2)">Complete Lesson 2</button></li>
+                <li><button onclick="markCompleted('course2', 3)">Complete Lesson 3</button></li>
+                <li><button onclick="markCompleted('course2', 4)">Complete Lesson 4</button></li>
+                <li><button onclick="markCompleted('course2', 5)">Complete Lesson 5</button></li>
+            </ul>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="course" id="course3">
+            <h3>Course 3: Data Science Fundamentals</h3>
+            <div class="progress-container">
+                <div id="progress-bar-course3" class="progress-bar">0%</div>
+            </div>
+            <ul class="lesson-list">
+                <li><button onclick="markCompleted('course3', 1)">Complete Lesson 1</button></li>
+                <li><button onclick="markCompleted('course3', 2)">Complete Lesson 2</button></li>
+                <li><button onclick="markCompleted('course3', 3)">Complete Lesson 3</button></li>
+                <li><button onclick="markCompleted('course3', 4)">Complete Lesson 4</button></li>
+                <li><button onclick="markCompleted('course3', 5)">Complete Lesson 5</button></li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const totalLessons = 5; // Total number of lessons per course
+        let progress = JSON.parse(localStorage.getItem('progress')) || {
+            course1: 0,
+            course2: 0,
+            course3: 0
+        };
+
+        // Update all progress bars initially
+        Object.keys(progress).forEach(updateProgress);
+
+        function markCompleted(course, lesson) {
+            const courseProgress = document.getElementById(`progress-bar-${course}`);
+            const buttons = document.querySelectorAll(`#${course} .lesson-list button`);
+
+            if (!buttons[lesson - 1].classList.contains('completed')) {
+                progress[course]++;
+                buttons[lesson - 1].classList.add('completed'); // Mark the button
+                localStorage.setItem('progress', JSON.stringify(progress)); // Save progress
+                updateProgress(course);
+            }
+        }
+
+        function updateProgress(course) {
+            const completedLessons = progress[course];
+            const progressBar = document.getElementById(`progress-bar-${course}`);
+            const percentage = Math.min((completedLessons / totalLessons) * 100, 100); // Cap at 100%
+            progressBar.style.width = `${percentage}%`;
+            progressBar.textContent = `${Math.round(percentage)}%`;
+        }
+
+        // Mark already completed lessons
+        document.addEventListener('DOMContentLoaded', () => {
+            Object.keys(progress).forEach(course => {
+                const buttons = document.querySelectorAll(`#${course} .lesson-list button`);
+                for (let i = 0; i < progress[course]; i++) {
+                    buttons[i].classList.add('completed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

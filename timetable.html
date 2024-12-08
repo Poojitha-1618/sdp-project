@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable - Student Course Registeration and Scheduling</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .timetable-section {
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .timetable th, .timetable td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .timetable th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .timetable td {
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+
+        .timetable td.selected {
+            background-color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        #courseList {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #courseList button {
+            margin: 5px;
+        }
+    </style>
+    <script>
+        let selectedCourse = '';
+        let registeredCourses = JSON.parse(localStorage.getItem("registeredCourses")) || [];
+
+        // Function to select the course
+        function setCourse(course) {
+            // Check if the course is registered
+            if (!registeredCourses.includes(course)) {
+                alert("You need to register for this course first!");
+                return;
+            }
+            selectedCourse = course;  // Set selected course
+            alert(`You have selected ${selectedCourse} for the timetable.`);
+        }
+
+        // Function to handle timetable slot selection
+        function selectSlot(day, time) {
+            const slot = document.getElementById(`${day}-${time}`);
+            if (!selectedCourse) {
+                alert("Please select a course first!");
+                return;
+            }
+            if (slot.textContent) {
+                alert("This slot is already filled!");
+                return;
+            }
+            slot.textContent = selectedCourse;  // Add the course to the slot
+            slot.classList.add('selected');  // Style the slot as selected
+        }
+
+        // Display registered courses (called on page load)
+        function displayRegisteredCourses() {
+            registeredCourses = JSON.parse(localStorage.getItem("registeredCourses")) || [];
+            if (registeredCourses.length === 0) {
+                alert("You have no courses registered. Please register courses first.");
+            }
+        }
+
+        // On page load, display registered courses
+        window.onload = displayRegisteredCourses;
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>Online Course Registration System</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="courses.html">Courses</a>
+            <a href="timetable.html">Timetable</a>
+        </nav>
+    </header>
+
+    <section class="timetable-section">
+        <h2>Course Timetable</h2>
+
+        <table class="timetable">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>9:00 AM</td>
+                    <td id="Monday-9:00" onclick="selectSlot('Monday', '9:00')"></td>
+                    <td id="Tuesday-9:00" onclick="selectSlot('Tuesday', '9:00')"></td>
+                    <td id="Wednesday-9:00" onclick="selectSlot('Wednesday', '9:00')"></td>
+                    <td id="Thursday-9:00" onclick="selectSlot('Thursday', '9:00')"></td>
+                    <td id="Friday-9:00" onclick="selectSlot('Friday', '9:00')"></td>
+                </tr>
+                <tr>
+                    <td>10:00 AM</td>
+                    <td id="Monday-10:00" onclick="selectSlot('Monday', '10:00')"></td>
+                    <td id="Tuesday-10:00" onclick="selectSlot('Tuesday', '10:00')"></td>
+                    <td id="Wednesday-10:00" onclick="selectSlot('Wednesday', '10:00')"></td>
+                    <td id="Thursday-10:00" onclick="selectSlot('Thursday', '10:00')"></td>
+                    <td id="Friday-10:00" onclick="selectSlot('Friday', '10:00')"></td>
+                </tr>
+                <tr>
+                    <td>11:00 AM</td>
+                    <td id="Monday-11:00" onclick="selectSlot('Monday', '11:00')"></td>
+                    <td id="Tuesday-11:00" onclick="selectSlot('Tuesday', '11:00')"></td>
+                    <td id="Wednesday-11:00" onclick="selectSlot('Wednesday', '11:00')"></td>
+                    <td id="Thursday-11:00" onclick="selectSlot('Thursday', '11:00')"></td>
+                    <td id="Friday-11:00" onclick="selectSlot('Friday', '11:00')"></td>
+                </tr>
+                <tr>
+                    <td>12:00 PM</td>
+                    <td id="Monday-12:00" onclick="selectSlot('Monday', '12:00')"></td>
+                    <td id="Tuesday-12:00" onclick="selectSlot('Tuesday', '12:00')"></td>
+                    <td id="Wednesday-12:00" onclick="selectSlot('Wednesday', '12:00')"></td>
+                    <td id="Thursday-12:00" onclick="selectSlot('Thursday', '12:00')"></td>
+                    <td id="Friday-12:00" onclick="selectSlot('Friday', '12:00')"></td>
+                </tr>
+                <tr>
+                    <td>1:00 PM</td>
+                    <td id="Monday-1:00" onclick="selectSlot('Monday', '1:00')"></td>
+                    <td id="Tuesday-1:00" onclick="selectSlot('Tuesday', '1:00')"></td>
+                    <td id="Wednesday-1:00" onclick="selectSlot('Wednesday', '1:00')"></td>
+                    <td id="Thursday-1:00" onclick="selectSlot('Thursday', '1:00')"></td>
+                    <td id="Friday-1:00" onclick="selectSlot('Friday', '1:00')"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="courseList">
+            <h3>Select a Course:</h3>
+            <button onclick="setCourse('Course 1: Introduction to Programming')">Course 1: Introduction to Programming</button>
+            <button onclick="setCourse('Course 2: Web Development Basics')">Course 2: Web Development Basics</button>
+            <button onclick="setCourse('Course 3: Data Science Fundamentals')">Course 3: Data Science Fundamentals</button>
+        </div>
+    </section>
+
+</body>
+</html>

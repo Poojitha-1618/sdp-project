@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - Student Course Registration and Scheduling</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function registerForCourse(courseName) {
+            // Retrieve or initialize the registered courses list from local storage
+            let registeredCourses = JSON.parse(localStorage.getItem("registeredCourses")) || [];
+
+            if (!registeredCourses.includes(courseName)) {
+                registeredCourses.push(courseName);
+                localStorage.setItem("registeredCourses", JSON.stringify(registeredCourses));
+                alert(`You have successfully registered for ${courseName}!`);
+                displayRegisteredCourses(); // Refresh the list of registered courses
+            } else {
+                alert(`You are already registered for ${courseName}.`);
+            }
+        }
+
+        // Display registered courses
+        function displayRegisteredCourses() {
+            const registeredCourses = JSON.parse(localStorage.getItem("registeredCourses")) || [];
+            const listElement = document.getElementById("registeredCoursesList");
+
+            // Clear existing list items before appending new ones
+            listElement.innerHTML = '';
+
+            registeredCourses.forEach(course => {
+                const listItem = document.createElement("li");
+                listItem.textContent = course;
+                listElement.appendChild(listItem);
+            });
+        }
+
+        // Call the function on page load
+        window.onload = displayRegisteredCourses;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        
+        nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .courses-section {
+            margin: 20px;
+        }
+
+        .courses-section h2 {
+            color: #333;
+        }
+
+        .course {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+
+        .course span {
+            flex-grow: 1;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .course button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .course button:hover {
+            background-color: #45a049;
+        }
+
+        #registeredCoursesList {
+            margin-top: 20px;
+        }
+
+        #registeredCoursesList li {
+            background-color: #e9e9e9;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Student Course Registration and Scheduling</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="courses.html">Courses</a>
+            <a href="timetable.html">Timetable</a>
+            <a href="progress.html">Course Progress</a>
+        </nav>
+    </header>
+
+    <section class="courses-section">
+        <h2>Available Courses</h2>
+        <ul>
+            <li class="course">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqVSzVGIanux-fEhyBT0HkourOgZ00o3R0cA&s" class="course-image" alt="Course 1">
+                <span>Course 1: Introduction to Programming</span>
+                <button onclick="registerForCourse('Course 1: Introduction to Programming')">Register</button>
+            </li>
+            <li class="course">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA0rRXS-h8x49R2ZI3Ta2ewN7f17ChD0lPdA&s" class="course-image" alt="Course 2">
+                <span>Course 2: Web Development Basics</span>
+                <button onclick="registerForCourse('Course 2: Web Development Basics')">Register</button>
+            </li>
+            <li class="course">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJSI3s9nMgtopxIkKhKvvLi7PFELdNXaR5ww&s" class="course-image" alt="Course 3">
+                <span>Course 3: Data Science Fundamentals</span>
+                <button onclick="registerForCourse('Course 3: Data Science Fundamentals')">Register</button>
+            </li>
+            <!-- Add more courses as needed -->
+        </ul>
+
+        <h3>Your Registered Courses:</h3>
+        <ul id="registeredCoursesList"></ul> <!-- Registered courses will be displayed here -->
+    </section>
+
+</body>
+</html>
